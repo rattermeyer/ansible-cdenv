@@ -10,6 +10,7 @@
       - gitk
       - meld
       - vim
+      - tmux
       - openjdk-7-jdk
       - openjdk-8-jdk
   - name: update alternatives
