@@ -1,0 +1,4 @@
+---
+git_credential_cache_timeout: 3600
+git_core_editor: "vim"
+git_core_autocrlf: "input"
