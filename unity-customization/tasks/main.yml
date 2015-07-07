@@ -48,19 +48,6 @@
   tags:
     - configuration
 
-- name: Keyboard configuration
-  debconf: name='keyboard-configuration' question={{item.question}} value={{item.value}} vtype={{item.vtype}}
-  become: true
-  become_user: "{{user}}"
-  with_items:
-    - { question: 'keyboard-configuration/layout', value: 'German', vtype: 'select' }
-    - { question: 'keyboard-configuration/layoutcode', value: 'de', vtype: 'select' }
-    - { question: 'keyboard-configuration/variantcode', value: 'nodeadkeys', vtype: 'select' }
-    - { question: 'keyboard-configuration/modelcode', value: 'pc105', vtype: 'select' }
-    - { question: 'keyboard-configuration/optionscode', value: 'compose:rctrl', vtype: 'select' }
-  tags:
-    - configuration
-
 - name: Git configuration
   template: src=gitconfig.j2 dest="{{home}}/.gitconfig" owner="{{user}}" group="{{user}}" mode=0664
   tags:
@@ -68,5 +55,28 @@
 
 - name: Disable automatic login
   template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644
+  tags:
+    - configuration
+
+- name: Set up localization
+  unarchive: src=settings.tar.gz dest="{{home}}" owner={{user}}
+
+- name: Disabling Zeitgeist
+  stat: path=/etc/xdg/autostart/zeitgeist-datahub.desktop
+  register: zeitgeist_desktop
+  tags:
+    - configuration
+
+- command: mv /etc/xdg/autostart/zeitgeist-datahub.desktop /etc/xdg/autostart/zeitgeist-datahub.desktop-inactive
+  when: zeitgeist_desktop.stat.exists
+  tags:
+    - configuration
+- file: path="{{home}}/.local/share/recently-used.xbel" state=absent
+  tags:
+    - configuration
+- file: path="{{home}}/.local/share/recently-used.xbel" state=directory
+  tags:
+    - configuration
+- file: path="{{home}}/.local/share/zeitgeist" state=absent
   tags:
     - configuration
