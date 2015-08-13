@@ -34,6 +34,6 @@
   become: true
   become_user: "{{user}}"
 
- command: vim +PluginInstall +qall 2&> /dev/null
+- command: vim +PluginInstall +qall 2&> /dev/null
   become: true
   become_user: "{{user}}"
