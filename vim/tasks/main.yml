@@ -13,9 +13,14 @@
   become_user: "{{user}}"
 
 - name: Download vimrc
-  get_url: url="https://gist.githubusercontent.com/rattermeyer/4f2b0d48069a2f5345fd/raw/51d5baa6458ebb99662338542b6bc8b2b1391e42/vimrc" dest={{home}}/.vimrc
+  get_url: url="https://gist.githubusercontent.com/rattermeyer/4f2b0d48069a2f5345fd/raw/156a0a4ce6713075fced38f0ffef376efbb10953/vimrc" dest={{home}}/.vimrc
   become: true
   become_user: "{{user}}"
+
+# not sure if this is enough
+- name: Install Powerline Font
+  get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest=/usr/share/fonts/X11/misc
+- command: fc-cache -vf /usr/share/fonts/X11/misc
 
 - name: YouCompleteMe
   git: repo=https://github.com/Valloric/YouCompleteMe.git dest={{home}}/.vim/bundle/YouCompleteMe
@@ -23,10 +28,12 @@
   become_user: "{{user}}"
 
 - name: YouCompleteMe compile
-  command: ./install.sh --clang-completer --gocode-completer 
+  command: ./install.sh --clang-completer 
   args:
     chdir: "{{home}}/.vim/bundle/YouCompleteMe"
+  become: true
+  become_user: "{{user}}"
 
-- command: vim +PluginInstall +qall 2&> /dev/null
+ command: vim +PluginInstall +qall 2&> /dev/null
   become: true
   become_user: "{{user}}"
