@@ -13,14 +13,36 @@
   become_user: "{{user}}"
 
 - name: Download vimrc
-  get_url: url="https://gist.githubusercontent.com/rattermeyer/4f2b0d48069a2f5345fd/raw/156a0a4ce6713075fced38f0ffef376efbb10953/vimrc" dest={{home}}/.vimrc
+  get_url: url="https://gist.githubusercontent.com/rattermeyer/4f2b0d48069a2f5345fd/raw/0df71628a7134950543042ef68ff5234911f1601/vimrc" dest={{home}}/.vimrc
   become: true
   become_user: "{{user}}"
 
 # not sure if this is enough
 - name: Install Powerline Font
-  get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest=/usr/share/fonts/X11/misc
-- command: fc-cache -vf /usr/share/fonts/X11/misc
+  file: path={{home}}/.fonts
+  become: true
+  become_user: "{{user}}"
+- get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest={{home}}/.fonts
+  tags: powerline
+  become: true
+  become_user: "{{user}}"
+
+- command: fc-cache -vf {{home}}/.fonts
+  tags: powerline
+  become: true
+  become_user: "{{user}}"
+
+- file: path={{home}}/.config/fontconfig/conf.d state=directory 
+  tags: powerline
+  become: true
+  become_user: "{{user}}"
+
+- get_url: url="https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf" dest={{home}}/.config/fontconfig/conf.d
+  tags: powerline
+  become: true
+  become_user: "{{user}}"
+
+## end: Powerline
 
 - name: YouCompleteMe
   git: repo=https://github.com/Valloric/YouCompleteMe.git dest={{home}}/.vim/bundle/YouCompleteMe
