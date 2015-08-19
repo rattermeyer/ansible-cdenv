@@ -22,7 +22,7 @@
   file: path={{home}}/.fonts
   become: true
   become_user: "{{user}}"
-- get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest={{home}}/.fonts
+- get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest={{home}}/.fonts/PowerlineSymbols.otf
   tags: powerline
   become: true
   become_user: "{{user}}"
@@ -37,7 +37,7 @@
   become: true
   become_user: "{{user}}"
 
-- get_url: url="https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf" dest={{home}}/.config/fontconfig/conf.d
+- get_url: url="https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf" dest={{home}}/.config/fontconfig/conf.d/10-powerline-symbols.conf
   tags: powerline
   become: true
   become_user: "{{user}}"
@@ -50,9 +50,7 @@
   become_user: "{{user}}"
 
 - name: YouCompleteMe compile
-  command: ./install.sh --clang-completer 
-  args:
-    chdir: "{{home}}/.vim/bundle/YouCompleteMe"
+  command: ./install.sh --clang-completer creates="{{home}}/.vim/bundle/YouCompleteMe/python/ycm/__init__.pyc" chdir="{{home}}/.vim/bundle/YouCompleteMe"
   become: true
   become_user: "{{user}}"
 
