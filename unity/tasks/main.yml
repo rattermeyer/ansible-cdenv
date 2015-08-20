@@ -1,12 +1,16 @@
 # vim: noai:ts=2:sw=2:expandtab
 ---
+- name: Unity Desktop
+  apt: name=ubuntu-desktop
+  tags: unity
+
 - name: Language packs
   apt: name="{{item}}"
   with_items:
-    - language-pack-de-base
     - language-pack-de
-    - language-pack-gnome-de-base
     - language-pack-gnome-de
+    - language-pack-de-base
+    - language-pack-gnome-de-base
     - wswiss
     - wngerman
     - wogerman
@@ -38,15 +42,15 @@
     - mythes-en-us
     - mythes-de
   tags:
-    - configuration
+    - unity
+    - localizationn
 - name: Locale settings
   command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
   tags:
-    - configuration
-
+    - localization
 - command: locale-gen
   tags:
-    - configuration
+    - localization
 
 - name: Git configuration
   template: src=gitconfig.j2 dest="{{home}}/.gitconfig" owner="{{user}}" group="{{user}}" mode=0664
@@ -56,27 +60,30 @@
 - name: Disable automatic login
   template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644
   tags:
-    - configuration
+    - unity
 
 - name: Set up localization
   unarchive: src=settings.tar.gz dest="{{home}}" owner={{user}}
+  tags:
+    - unity
+    - localizationn
 
 - name: Disabling Zeitgeist
   stat: path=/etc/xdg/autostart/zeitgeist-datahub.desktop
   register: zeitgeist_desktop
   tags:
-    - configuration
+    - unity
 
 - command: mv /etc/xdg/autostart/zeitgeist-datahub.desktop /etc/xdg/autostart/zeitgeist-datahub.desktop-inactive
   when: zeitgeist_desktop.stat.exists
   tags:
-    - configuration
+    - unity
 - file: path="{{home}}/.local/share/recently-used.xbel" state=absent
   tags:
-    - configuration
+    - unity
 - file: path="{{home}}/.local/share/recently-used.xbel" state=directory
   tags:
-    - configuration
+    - unity
 - file: path="{{home}}/.local/share/zeitgeist" state=absent
   tags:
-    - configuration
+    - unity
