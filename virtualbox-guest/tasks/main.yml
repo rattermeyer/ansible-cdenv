@@ -21,7 +21,7 @@
   tags: virtualbox
 
 - name: virtualbox | main.yml >> virtualbox guest additions present
-  command: "{{ virtualbox.guest_additions.iso_mountdir }}/VBoxGuestAdditions_{{ virtualbox.guest_additions.version }}/VBoxLinuxAdditions.run --nox11 -- --force creates=/lib/modules/{{ ansible_kernel }}/updates/dkms/vboxguest.ko"
+  command: "{{ virtualbox.guest_additions.iso_mountdir }}/VBoxGuestAdditions_{{ virtualbox.guest_additions.version }}/VBoxLinuxAdditions.run --nox11 -- --force creates=/etc/init.d/vboxadd"
   ignore_errors: True
   tags: virtualbox
 

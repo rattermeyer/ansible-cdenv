@@ -43,7 +43,7 @@
     - mythes-de
   tags:
     - unity
-    - localizationn
+    - localization
 - name: Locale settings
   command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
   tags:
@@ -57,8 +57,11 @@
   tags:
     - configuration
 
-- name: Disable automatic login
-  template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644
+- name: Disable automatic login 
+  file: path=/etc/gdm state=directory
+  tags: 
+    - unity
+- template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644
   tags:
     - unity
 
@@ -67,6 +70,16 @@
   tags:
     - unity
     - localizationn
+
+- name: Set up timezone
+  shell: echo "Europe/Berlin" > /etc/timezone  
+  tags:
+    - unity
+    - localization
+- shell: dpkg-reconfigure --frontend noninteractive tzdata
+  tags:
+    - unity
+    - localization
 
 - name: Disabling Zeitgeist
   stat: path=/etc/xdg/autostart/zeitgeist-datahub.desktop
