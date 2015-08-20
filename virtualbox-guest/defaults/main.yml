@@ -1,0 +1,8 @@
+virtualbox:
+  guest_additions:
+    version: 5.0.2
+    iso_url: http://download.virtualbox.org/virtualbox/5.0.2/VBoxGuestAdditions_5.0.2.iso
+    iso_checksum: 974063ca9c7bde796dd77ba55d35583dc5d8bc27d53a6bfd81ae206978b133e2
+    iso_dir: /tmp
+    iso_mountdir: /mnt
+
