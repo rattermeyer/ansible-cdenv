@@ -1,5 +1,17 @@
 # vim: noai:ts=2:sw=2:expandtab
 ---
+- name: use mirrors
+  lineinfile: dest=/etc/apt/sources.list insertbefore=BOF line={{item}}
+  with_items:
+    - "'deb mirror://mirrors.ubuntu.com/mirrors.txt {{ubuntu_release}} main restricted universe multiverse'"
+    - "'deb mirror://mirrors.ubuntu.com/mirrors.txt {{ubuntu_release}}-updates main restricted universe multiverse'"
+    - "'deb mirror://mirrors.ubuntu.com/mirrors.txt {{ubuntu_release}}-backports main restricted universe multiverse'"
+    - "'deb mirror://mirrors.ubuntu.com/mirrors.txt {{ubuntu_release}}-security main restricted universe multiverse'"
+  register: mirrors
+  tags: configuration
+- apt: update_cache=true
+  when: mirrors.changed
+  tags: configuration
 - name: add openjdk repository
   apt_repository: repo='ppa:openjdk-r/ppa'
   tags: dev-tools
