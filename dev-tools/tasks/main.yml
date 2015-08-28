@@ -54,3 +54,8 @@
   become: true
   become_user: "{{user}}"
   tags: dev-tools
+- name: Git configuration
+  template: src=gitconfig.j2 dest="{{home}}/.gitconfig" owner="{{user}}" group="{{user}}" mode=0664
+  tags:
+  - configuration
+  - dev-tools

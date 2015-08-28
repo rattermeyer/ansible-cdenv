@@ -6,39 +6,43 @@
     - build-essential
     - cmake
     - python-dev
+  tags: vim
 
 - name: Install Vundle
   git: repo=https://github.com/gmarik/Vundle.vim.git dest={{home}}/.vim/bundle/Vundle.vim
+  tags: vim
   become: true
   become_user: "{{user}}"
 
 - name: Download vimrc
   get_url: url="https://gist.githubusercontent.com/rattermeyer/4f2b0d48069a2f5345fd/raw/0df71628a7134950543042ef68ff5234911f1601/vimrc" dest={{home}}/.vimrc
+  tags: vim
   become: true
   become_user: "{{user}}"
 
 # not sure if this is enough
 - name: Install Powerline Font
   file: path={{home}}/.fonts state=directory
+  tags: vim
   become: true
   become_user: "{{user}}"
-- get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest={{home}}/.fonts/PowerlineSymbols.otf
+- get_url: url="https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf" dest={{home}}/.fonts
   tags: powerline
   become: true
   become_user: "{{user}}"
 
 - command: fc-cache -vf {{home}}/.fonts
-  tags: powerline
+  tags: [powerline, vim]
   become: true
   become_user: "{{user}}"
 
 - file: path={{home}}/.config/fontconfig/conf.d state=directory 
-  tags: powerline
+  tags: [powerline, vim]
   become: true
   become_user: "{{user}}"
 
 - get_url: url="https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf" dest={{home}}/.config/fontconfig/conf.d/10-powerline-symbols.conf
-  tags: powerline
+  tags: [powerline, vim]
   become: true
   become_user: "{{user}}"
 

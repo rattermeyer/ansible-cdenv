@@ -8,22 +8,6 @@
 - name: ambiance theme
   apt_repository: repo='ppa:ravefinity-project/ppa'
   tags: xubuntu
-- name: additional packages
-  apt: name="{{item}}"
-  with_items:
-    - xubuntu-desktop
-    - cairo-dock
-    - libreoffice-gtk
-    - xfce-theme-manager
-    - ambiance-flat-colors 
-    - radiance-flat-colors
-  tags: xubuntu
-- name: remove packages
-  apt: name=abiword state=absent 
-  tags: xubuntu
-- name: xfwm-theme-manager
-  apt_repository: repo='ppa:rebuntu16/other-stuff'
-  tags: xubuntu
 - name: Language packs
   apt: name="{{item}}"
   with_items:
@@ -59,7 +43,23 @@
   - libreoffice-l10n-de
   - gimp-help-de
   tags: configuration
- name: Wallpaper
+- name: additional packages
+  apt: name="{{item}}"
+  with_items:
+    - xubuntu-desktop
+    - cairo-dock
+    - libreoffice-gtk
+    - xfce-theme-manager
+    - ambiance-flat-colors 
+    - radiance-flat-colors
+  tags: xubuntu
+- name: remove packages
+  apt: name=abiword state=absent 
+  tags: xubuntu
+- name: xfwm-theme-manager
+  apt_repository: repo='ppa:rebuntu16/other-stuff'
+  tags: xubuntu
+- name: Wallpaper
   get_url: url=http://gnome-look.org/CONTENT/content-files/100418-3dbuntu3.jpg dest=/usr/share/xfce4/backdrops/100418-3dbuntu3.jpg
   tags: configuration
 - name: XFCE4 Configuration | ensure directory
