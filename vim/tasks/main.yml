@@ -48,16 +48,19 @@
 
 ## end: Powerline
 
+#- name: YouCompleteMe
+#  git: repo=https://github.com/Valloric/YouCompleteMe.git dest={{home}}/.vim/bundle/YouCompleteMe
+#  become: true
+#  become_user: "{{user}}"
+#
+#- name: YouCompleteMe compile
+#  command: ./install.sh --clang-completer creates="{{home}}/.vim/bundle/YouCompleteMe/python/ycm/__init__.pyc" chdir="{{home}}/.vim/bundle/YouCompleteMe"
+#  become: true
+#  become_user: "{{user}}"
+
 - name: YouCompleteMe
-  git: repo=https://github.com/Valloric/YouCompleteMe.git dest={{home}}/.vim/bundle/YouCompleteMe
-  become: true
-  become_user: "{{user}}"
+  apt: name=vim-youcompleteme
 
-- name: YouCompleteMe compile
-  command: ./install.sh --clang-completer creates="{{home}}/.vim/bundle/YouCompleteMe/python/ycm/__init__.pyc" chdir="{{home}}/.vim/bundle/YouCompleteMe"
-  become: true
-  become_user: "{{user}}"
-
-- command: vim +PluginInstall +qall 2&> /dev/null
-  become: true
-  become_user: "{{user}}"
+#- command: vim +PluginInstall +qall 2&> /dev/null
+#  become: true
+#  become_user: "{{user}}"
