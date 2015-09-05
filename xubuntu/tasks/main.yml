@@ -1,7 +1,9 @@
 # vim: noai:ts=2:sw=2:expandtab
 ---
 - name: Locale settings
-  command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
+  command: locale-gen de_DE.UTF-8
+  tags: configuration
+- command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
   tags: configuration
 - command: locale-gen
   tags: configuration
@@ -43,8 +45,12 @@
   - libreoffice-l10n-de
   - gimp-help-de
   tags: configuration
+- name: xfwm-theme-manager
+  apt_repository: repo='ppa:rebuntu16/other-stuff'
+  tags: xubuntu
 - name: additional packages
   apt: name="{{item}}"
+  tags: xubuntu
   with_items:
     - xubuntu-desktop
     - cairo-dock
@@ -55,9 +61,6 @@
   tags: xubuntu
 - name: remove packages
   apt: name=abiword state=absent 
-  tags: xubuntu
-- name: xfwm-theme-manager
-  apt_repository: repo='ppa:rebuntu16/other-stuff'
   tags: xubuntu
 - name: Wallpaper
   get_url: url=http://gnome-look.org/CONTENT/content-files/100418-3dbuntu3.jpg dest=/usr/share/xfce4/backdrops/100418-3dbuntu3.jpg
