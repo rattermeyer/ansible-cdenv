@@ -25,40 +25,51 @@
   tags: xubuntu
   environment:
     LANG: de_DE.UTF-8
-#- name: Language packs
+- name: Language packs german
+  apt: name="{{item}}"
+  with_items:
+  - thunderbird-locale-de
+  - firefox-locale-de
+  - language-pack-de
+  - language-pack-de-base
+  - language-pack-gnome-de
+  - language-pack-gnome-de-base
+  - hyphen-de
+  - hunspell-de-de
+  - hunspell-de-ch
+  - hunspell-de-at
+  - mythes-de
+  - mythes-de-ch
+  - wswiss
+  - wngerman
+  - wogerman
+  - aspell-de
+  - libreoffice-help-de
+  - libreoffice-l10n-de
+  - gimp-help-de
+  tags: 
+    - lang_de
+#- name: Language packs english
 #  apt: name="{{item}}"
 #  with_items:
-#  - language-pack-de-base
-#  - language-pack-de
-#  - language-pack-gnome-de-base
-#  - language-pack-gnome-de
-#  - wswiss
-#  - wngerman
-#  - wogerman
-#  - wbritish
+#  - libreoffice-l10n-en-gb
+#  - libreoffice-l10n-en-us
+#  - libreoffice-help-en-gb
+#  - libreoffice-help-en-us
 #  - thunderbird-locale-en-us
 #  - thunderbird-locale-en
 #  - thunderbird-locale-en-gb
-#  - thunderbird-locale-de
-#  - firefox-locale-de
 #  - firefox-locale-en
 #  - hunspell-en-ca
-#  - hunspell-de-de
-#  - hunspell-de-ch
-#  - hunspell-de-at
-#  - hyphen-de
+#  - hunspell-en-us
+#  - wbritish
 #  - hyphen-en-us
 #  - myspell-en-au
 #  - myspell-en-za
 #  - myspell-en-gb
-#  - mythes-de-ch
 #  - mythes-en-au
 #  - mythes-en-us
-#  - mythes-de
-#  - aspell-de
-#  - libreoffice-help-de
-#  - libreoffice-l10n-de
-#  - gimp-help-de
+#  - gimp-help-en
 #  tags: configuration
 - name: remove packages
   apt: name=abiword state=absent 
