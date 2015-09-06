@@ -2,6 +2,7 @@
 ---
 - name: Download Apache Maven
   get_url: url="{{maven_mirror}}/apache-maven-{{ maven_version }}-bin.tar.gz" dest=/opt/apache-maven-{{ maven_version }}.tar.gz
+  environment: proxy_env
 
 - name: Create apache-maven directory
   file:

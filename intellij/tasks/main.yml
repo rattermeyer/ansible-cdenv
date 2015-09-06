@@ -5,6 +5,7 @@
 
 - name: Download Intellij
   get_url: url=http://download-ln.jetbrains.com/idea/ideaIU-{{version}}.tar.gz dest=/opt/intellij-{{version}}.tar.gz
+  environment: proxy_env
 
 - name: Create intellij directory
   command: mkdir /opt/intellij creates=/opt/intellij

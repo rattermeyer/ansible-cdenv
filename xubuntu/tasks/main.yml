@@ -3,48 +3,13 @@
 - name: Locale settings
   command: locale-gen de_DE.UTF-8
   tags: configuration
-- command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
-  tags: configuration
 - command: locale-gen
+  tags: configuration
+- command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
   tags: configuration
 - name: ambiance theme
   apt_repository: repo='ppa:ravefinity-project/ppa'
   tags: xubuntu
-- name: Language packs
-  apt: name="{{item}}"
-  with_items:
-  - language-pack-de-base
-  - language-pack-de
-  - language-pack-gnome-de-base
-  - language-pack-gnome-de
-  - wswiss
-  - wngerman
-  - wogerman
-  - wbritish
-  - thunderbird-locale-en-us
-  - thunderbird-locale-en
-  - thunderbird-locale-en-gb
-  - thunderbird-locale-de
-  - firefox-locale-de
-  - firefox-locale-en
-  - hunspell-en-ca
-  - hunspell-de-de
-  - hunspell-de-ch
-  - hunspell-de-at
-  - hyphen-de
-  - hyphen-en-us
-  - myspell-en-au
-  - myspell-en-za
-  - myspell-en-gb
-  - mythes-de-ch
-  - mythes-en-au
-  - mythes-en-us
-  - mythes-de
-  - aspell-de
-  - libreoffice-help-de
-  - libreoffice-l10n-de
-  - gimp-help-de
-  tags: configuration
 - name: xfwm-theme-manager
   apt_repository: repo='ppa:rebuntu16/other-stuff'
   tags: xubuntu
@@ -58,6 +23,41 @@
     - ambiance-flat-colors 
     - radiance-flat-colors
   tags: xubuntu
+#- name: Language packs
+#  apt: name="{{item}}"
+#  with_items:
+#  - language-pack-de-base
+#  - language-pack-de
+#  - language-pack-gnome-de-base
+#  - language-pack-gnome-de
+#  - wswiss
+#  - wngerman
+#  - wogerman
+#  - wbritish
+#  - thunderbird-locale-en-us
+#  - thunderbird-locale-en
+#  - thunderbird-locale-en-gb
+#  - thunderbird-locale-de
+#  - firefox-locale-de
+#  - firefox-locale-en
+#  - hunspell-en-ca
+#  - hunspell-de-de
+#  - hunspell-de-ch
+#  - hunspell-de-at
+#  - hyphen-de
+#  - hyphen-en-us
+#  - myspell-en-au
+#  - myspell-en-za
+#  - myspell-en-gb
+#  - mythes-de-ch
+#  - mythes-en-au
+#  - mythes-en-us
+#  - mythes-de
+#  - aspell-de
+#  - libreoffice-help-de
+#  - libreoffice-l10n-de
+#  - gimp-help-de
+#  tags: configuration
 - name: remove packages
   apt: name=abiword state=absent 
   tags: xubuntu

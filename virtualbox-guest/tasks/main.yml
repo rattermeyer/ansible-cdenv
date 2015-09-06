@@ -9,6 +9,7 @@
 
 - name: virtualbox | main.yml >> download virtualbox guest additions iso
   get_url: url={{ virtualbox.guest_additions.iso_url }} dest={{ virtualbox.guest_additions.iso_dir }}/VBoxGuestAdditions_{{ virtualbox.guest_additions.version }}.iso timeout=240
+  environment: proxy_env
   tags: virtualbox
 
 - name: virtualbox | main.yml >> ensure mount dir exists
