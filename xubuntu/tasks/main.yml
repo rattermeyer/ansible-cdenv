@@ -23,6 +23,8 @@
     - ambiance-flat-colors 
     - radiance-flat-colors
   tags: xubuntu
+  environment:
+    LANG: de_DE.UTF-8
 #- name: Language packs
 #  apt: name="{{item}}"
 #  with_items:
