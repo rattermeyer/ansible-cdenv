@@ -2,9 +2,11 @@
 ---
 - name: Install Java 1.8
   apt: name=openjdk-8-jdk state=present
+  environment: proxy_env
 
 - name: Download Intellij
   get_url: url=http://download-ln.jetbrains.com/idea/ideaIU-{{version}}.tar.gz dest=/opt/intellij-{{version}}.tar.gz
+  environment: proxy_env
   environment: proxy_env
 
 - name: Create intellij directory

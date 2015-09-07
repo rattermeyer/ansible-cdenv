@@ -3,18 +3,21 @@
   sudo: yes
   sudo_user: "{{user}}"
   shell: gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+  environment: proxy_env
   tags: [rvm]
 
 - name: install rvm
   sudo: yes
   sudo_user: "{{user}}"
   shell: curl -L https://get.rvm.io | bash -s stable --autolibs=enabled --ignore-dotfiles creates=~/.rvm
+  environment: proxy_env
   tags: [rvm]
 
 - name: build {{ruby}}
   sudo: yes
   sudo_user: "{{user}}"
   shell: ~/.rvm/bin/rvm install {{ruby}}
+  environment: proxy_env
   when: ruby is defined
   tags: [rvm]
 

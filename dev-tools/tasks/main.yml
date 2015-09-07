@@ -27,6 +27,7 @@
 
 - name: install git prompt
   git: repo=https://github.com/magicmonty/bash-git-prompt.git dest={{home}}/.bash-git-prompt
+  environment: proxy_env
   become: true
   become_user: "{{user}}"
   tags: dev-tools

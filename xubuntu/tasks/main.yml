@@ -9,6 +9,7 @@
   tags: configuration
 - name: ambiance theme
   apt_repository: repo='ppa:ravefinity-project/ppa'
+  environment: proxy_env
   tags: xubuntu
 - name: xfwm-theme-manager
   apt_repository: repo='ppa:rebuntu16/other-stuff'
@@ -49,33 +50,34 @@
   - gimp-help-de
   tags: 
     - lang_de
-#- name: Language packs english
-#  apt: name="{{item}}"
-#  with_items:
-#  - libreoffice-l10n-en-gb
-#  - libreoffice-l10n-en-us
-#  - libreoffice-help-en-gb
-#  - libreoffice-help-en-us
-#  - thunderbird-locale-en-us
-#  - thunderbird-locale-en
-#  - thunderbird-locale-en-gb
-#  - firefox-locale-en
-#  - hunspell-en-ca
-#  - hunspell-en-us
-#  - wbritish
-#  - hyphen-en-us
-#  - myspell-en-au
-#  - myspell-en-za
-#  - myspell-en-gb
-#  - mythes-en-au
-#  - mythes-en-us
-#  - gimp-help-en
-#  tags: configuration
+- name: Language packs english
+  apt: name="{{item}}"
+  with_items:
+  - libreoffice-l10n-en-gb
+  - libreoffice-l10n-en-us
+  - libreoffice-help-en-gb
+  - libreoffice-help-en-us
+  - thunderbird-locale-en-us
+  - thunderbird-locale-en
+  - thunderbird-locale-en-gb
+  - firefox-locale-en
+  - hunspell-en-ca
+  - hunspell-en-us
+  - wbritish
+  - hyphen-en-us
+  - myspell-en-au
+  - myspell-en-za
+  - myspell-en-gb
+  - mythes-en-au
+  - mythes-en-us
+  - gimp-help-en
+  tags: configuration
 - name: remove packages
   apt: name=abiword state=absent 
   tags: xubuntu
 - name: Wallpaper
   get_url: url=http://gnome-look.org/CONTENT/content-files/100418-3dbuntu3.jpg dest=/usr/share/xfce4/backdrops/100418-3dbuntu3.jpg
+  environment: proxy_env
   tags: configuration
 - name: XFCE4 Configuration | ensure directory
   file: path=/home/{{user}}/.config state=directory owner={{user}} group={{user}}

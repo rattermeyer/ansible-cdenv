@@ -3,6 +3,7 @@
 # vim: noai:ts=2:sw=2:expandtab
 - name: Install nvm
   get_url: url="https://raw.githubusercontent.com/creationix/nvm/{{nvm_version}}/install.sh" dest="{{home}}/install.sh"
+  environment: proxy_env
   become: yes
   become_user: "{{ user }}"
 
@@ -11,6 +12,7 @@
   become_user: "{{ user }}"
 
 - shell: "{{home}}/install.sh"
+  environment: proxy_env
   args:
     creates: "{{ home }}/.nvm"
   become: yes

@@ -3,8 +3,10 @@
 # vim: noai:ts=2:sw=2:expandtab
 - name: GVM | Ensure preconditions
   apt: name=unzip
+  environment: proxy_env
 - name: GVM | Install gvm
   get_url: url="http://get.gvmtool.net/" dest="{{home}}/install.sh"
+  environment: proxy_env
   become: yes
   become_user: "{{ user }}"
 
@@ -13,6 +15,7 @@
   become_user: "{{ user }}"
 
 - shell: "{{home}}/install.sh"
+  environment: proxy_env
   args:
     creates: "{{ home }}/.gvm"
   become: yes
