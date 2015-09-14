@@ -28,3 +28,5 @@
     src={{maven_install_dir}}/apache-maven-{{ maven_version }}
     dest={{maven_install_dir}}/current
   
+- name: add to path
+  lineinfile: dest={{home}}/.bashrc insertbefore="^#THIS MUST BE" line="export PATH=${PATH}:/opt/apache-maven/current/bin"

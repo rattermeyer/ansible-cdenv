@@ -12,6 +12,6 @@
   tags: chrome
           
 - name: "apt | ensure Google chrome present"
-  apt: name=google-chrome-stable update_cache=yes
+  apt: name=google-chrome-stable 
   environment: proxy_env
   tags: chrome
