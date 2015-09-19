@@ -1,17 +1,10 @@
 ## vim: noai:ts=2:sw=2:expandtab
 ---
-- name: Locale settings
-  command: locale-gen de_DE.UTF-8
-  tags: configuration
-- command: locale-gen
-  tags: configuration
-- command: update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
-  tags: configuration
-- name: ambiance theme
+- name: ambiance theme repository
   apt_repository: repo='ppa:ravefinity-project/ppa'
   environment: proxy_env
   tags: xubuntu
-- name: xfwm-theme-manager
+- name: xfwm-theme-manager Repository
   apt_repository: repo='ppa:rebuntu16/other-stuff'
   tags: xubuntu
 - name: additional packages
@@ -24,69 +17,12 @@
     - ambiance-flat-colors 
     - radiance-flat-colors
   tags: xubuntu
-  environment:
-    LANG: de_DE.UTF-8
-- name: Language packs german
-  apt: name="{{item}}"
-  with_items:
-  - thunderbird-locale-de
-  - firefox-locale-de
-  - language-pack-de
-  - language-pack-de-base
-  - language-pack-gnome-de
-  - language-pack-gnome-de-base
-  - hyphen-de
-  - hunspell-de-de
-  - hunspell-de-ch
-  - hunspell-de-at
-  - mythes-de
-  - mythes-de-ch
-  - wswiss
-  - wngerman
-  - wogerman
-  - aspell-de
-  - libreoffice-help-de
-  - libreoffice-l10n-de
-  - gimp-help-de
-  tags: 
-    - lang_de
-- name: Language packs english
-  apt: name="{{item}}"
-  with_items:
-  - libreoffice-l10n-en-gb
-  - libreoffice-l10n-en-us
-  - libreoffice-help-en-gb
-  - libreoffice-help-en-us
-  - thunderbird-locale-en-us
-  - thunderbird-locale-en
-  - thunderbird-locale-en-gb
-  - firefox-locale-en
-  - hunspell-en-ca
-  - hunspell-en-us
-  - wbritish
-  - hyphen-en-us
-  - myspell-en-au
-  - myspell-en-za
-  - myspell-en-gb
-  - mythes-en-au
-  - mythes-en-us
-  - gimp-help-en
-  tags: configuration
 - name: remove packages
   apt: name=abiword state=absent 
   tags: xubuntu
 - name: Wallpaper
   get_url: url=http://gnome-look.org/CONTENT/content-files/100418-3dbuntu3.jpg dest=/usr/share/xfce4/backdrops/100418-3dbuntu3.jpg
   environment: proxy_env
-  tags: configuration
-- name: XFCE4 Configuration | ensure directory
-  file: path=/home/{{user}}/.config state=directory owner={{user}} group={{user}}
-  tags: configuration
-- name: XFCE4 Configuration
-  unarchive: src=xfce4.tar.gz dest=/home/{{user}}/.config owner={{user}} group={{user}} creates=/home/{{user}}/.config/xfce4-config.done
-  tags: configuration
-- name: Cairo Configuration
-  unarchive: src=cairo-dock.tar.gz dest=/home/{{user}}/.config owner={{user}} group={{user}} creates=/home/{{user}}/.config/cairo-dock-config.done
   tags: configuration
 #- name: Disable automatic login
 #  template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644
