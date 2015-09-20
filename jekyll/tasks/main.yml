@@ -1,0 +1,14 @@
+---
+- name: ensure bin directory is availabe
+  file: path={{home}}/bin state=directory
+  tags: 
+    - jekyll
+- name: bin in PATH
+  lineinfile: dest={{home}}/.bashrc line="export PATH=${PATH}:${HOME}/bin" 
+  tags: 
+    - jekyll
+- name: Copy skript
+  copy: src=jekyll dest={{home}}/bin/jekyll owner={{user}} group={{user}} mode=0755  
+  tags: 
+    - jekyll
+
