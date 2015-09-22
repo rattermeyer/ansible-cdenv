@@ -16,14 +16,28 @@
     - xfce-theme-manager
     - ambiance-flat-colors 
     - radiance-flat-colors
+    - xscreensaver
   tags: xubuntu
 - name: remove packages
-  apt: name=abiword state=absent 
+  apt: name="{{item}}" state=absent 
+  with_items:
+    - abiword
+    - light-locker
   tags: xubuntu
 - name: Wallpaper
   get_url: url=http://gnome-look.org/CONTENT/content-files/100418-3dbuntu3.jpg dest=/usr/share/xfce4/backdrops/100418-3dbuntu3.jpg
   environment: proxy_env
   tags: configuration
+- name: xfce4 | configuration | ensure directory
+  file: path={{home}}/.config state=directory
+  become: True
+  become: "{{user}}"
+  tags: xubuntu
+- name: xfce4 | copy config
+  unarchive: src=xfce4-config.tar.gz dest={{home}}
+  become: yes
+  become: "{{user}}"
+  tags: xubuntu
 #- name: Disable automatic login
 #  template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644
 #  tags: configuration

@@ -3,28 +3,45 @@
 - name: Install Java 1.8
   apt: name=openjdk-8-jdk state=present
   environment: proxy_env
+  tags:
+    - intellij
 
+# should work with get_url, but I have problems?
 - name: Download Intellij
-  get_url: url=http://download.jetbrains.com/idea/ideaIU-{{version}}.tar.gz dest=/opt/intellij-{{version}}.tar.gz
+#  get_url: url=http://download.jetbrains.com/idea/ideaIU-{{version}}.tar.gz dest=/opt/intellij-{{version}}.tar.gz
+  shell: curl -L -v --progress-bar http://download.jetbrains.com/idea/ideaIU-{{version}}.tar.gz > /opt/intellij-{{version}}.tar.gz
   environment: proxy_env
-  environment: proxy_env
+  tags:
+    - intellij
 
 - name: Create intellij directory
   command: mkdir /opt/intellij creates=/opt/intellij
+  tags:
+    - intellij
 
 - name: Remove current link
   command: rm -rf /opt/intellij/current
+  tags:
+    - intellij
 
 - name: Extract archive
   command: /bin/tar xvf /opt/intellij-{{version}}.tar.gz -C /opt/intellij creates=/opt/intellij/idea-IU-{{build}}
+  tags:
+    - intellij
 
 - name: Create symlink
   command: chdir=/opt/intellij ln -s idea-IU-{{build}} current
+  tags:
+    - intellij
 
 - name: Change ownership of IntelliJ installation
   file: path=/opt/intellij owner={{ user }} group={{ user }} state=directory recurse=yes
+  tags:
+    - intellij
 
 - name: Copy unity desktop file
   template: src=intellij.j2 dest=/usr/share/applications/intellij.desktop
+  tags:
+    - intellij
 
   
