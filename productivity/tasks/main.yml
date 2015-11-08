@@ -1,0 +1,22 @@
+---
+# tasks file for libreoffice
+- name: libreoffice ppa
+  apt_repository: repo={{ item }}
+  environment: proxy_env
+  with_items:
+    - "ppa:libreoffice/ppa"
+  tags: libreoffice
+- name: libreoffice install
+  apt: name=libreoffice
+  tags: libreoffice
+
+- name: atom ppa
+  apt_repository: repo={{ item }}
+  environment: proxy_env
+  with_items:
+    - "ppa:webupd8team/atom"
+  tags: atom
+- name: atom install
+  apt: name=atom
+  tags: atom
+

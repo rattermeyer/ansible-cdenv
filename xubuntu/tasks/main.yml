@@ -1,11 +1,18 @@
-## vim: noai:ts=2:sw=2:expandtab
+  ## vim: noai:ts=2:sw=2:expandtab
 ---
-- name: ambiance theme repository
-  apt_repository: repo='ppa:ravefinity-project/ppa'
+- name: Ambiance Theme Repository, theme-manager, cairo-dock
+  apt_repository: repo={{ item }}
   environment: proxy_env
+  with_items:
+    - "ppa:ravefinity-project/ppa"
+    - "ppa:rebuntu16/other-stuff"
+    - "ppa:cairo-dock-team/ppa"
+    - "ppa:xubuntu-dev/xfce-4.12"
+    - "ppa:xubuntu-dev/extras"
   tags: xubuntu
-- name: xfwm-theme-manager Repository
-  apt_repository: repo='ppa:rebuntu16/other-stuff'
+# upgrade to xfce 4.12
+- name: upgrade to xfce 4.12
+  apt: upgrade=dist
   tags: xubuntu
 - name: additional packages
   apt: name="{{item}}"
@@ -17,6 +24,9 @@
     - ambiance-flat-colors 
     - radiance-flat-colors
     - xscreensaver
+    - xfdashboard
+# for xfce 4.12 and qt (only for 14.04)
+    - qt4-qtconfig
   tags: xubuntu
 - name: remove packages
   apt: name="{{item}}" state=absent 
@@ -31,12 +41,12 @@
 - name: xfce4 | configuration | ensure directory
   file: path={{home}}/.config state=directory
   become: True
-  become: "{{user}}"
+  become_user: "{{user}}"
   tags: xubuntu
 - name: xfce4 | copy config
   unarchive: src=xfce4-config.tar.gz dest={{home}}
-  become: yes
-  become: "{{user}}"
+  become: True
+  become_user: "{{user}}"
   tags: xubuntu
 #- name: Disable automatic login
 #  template: src=custom.conf.j2 dest="/etc/gdm/custom.conf" backup=yes mode=0644

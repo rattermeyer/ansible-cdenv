@@ -1,0 +1,36 @@
+---
+# tasks file for sdkman
+# vim: noai:ts=2:sw=2:expandtab
+- name: sdkman | Ensure preconditions
+  apt: name=unzip
+  environment: proxy_env
+  tags: 
+    - sdkman
+- name: sdkman | Install sdkman
+  get_url: url="http://get.sdkman.io/" dest="{{home}}/install.sh"
+  environment: proxy_env
+  become: yes
+  become_user: "{{ user }}"
+  tags: 
+    - sdkman
+
+- file: path="{{home}}/install.sh" mode=u+rxw
+  become: yes
+  become_user: "{{ user }}"
+  tags: 
+    - sdkman
+
+- shell: "{{home}}/install.sh"
+  environment: proxy_env
+  args:
+    creates: "{{ home }}/.sdkman"
+  become: yes
+  become_user: "{{ user }}"
+  tags: 
+    - sdkman
+
+- file: path="{{home}}/install.sh" mode=u+rxw state=absent
+  become: yes
+  become_user: "{{ user }}"
+  tags: 
+    - sdkman

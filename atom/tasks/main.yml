@@ -1,0 +1,11 @@
+---
+# tasks file for atom
+- name: add atom ppa
+  apt_repository: repo="ppa:webupd8team/atom"
+  tags:
+    - atom
+
+- name: install atom
+  apt: name=atom
+  tags:
+    - atom
