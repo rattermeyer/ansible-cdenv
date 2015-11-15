@@ -1,0 +1,14 @@
+# registers a registrator on each docker node
+# should only be started after consul is available
+---
+- hosts: all
+  tasks:
+    - name: registrator
+      docker:
+        image: "gliderlabs/registrator:latest"
+        hostname: registrator
+        command: "consul://192.168.205.11:8500"
+        state: started
+        volumes: 
+          - /var/run/docker.sock:/tmp/docker.sock
+

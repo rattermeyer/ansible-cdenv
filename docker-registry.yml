@@ -1,0 +1,11 @@
+---
+# Creating a single consul container (only for development purposes)
+- hosts: controller
+  tasks:
+    - name: docker registry container
+      docker:
+        image: "XXX"
+        state: started
+        ports:
+          - "ZZZ:ZZZ"
+        hostname: dockerregistry
