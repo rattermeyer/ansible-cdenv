@@ -23,11 +23,13 @@ repository ansible_ssh_host=192.168.205.14
 # Here's another example of host ranges, this time there are no
 # leading 0s:
 
-
 [dockerhosts]
 192.168.205.15
 192.168.205.16
 
+[swarm:children]
+cdslaves
+dockerhosts
 
 
 

@@ -1,6 +1,26 @@
 ---
-- hosts: all
+- hosts: 
+    - dockerhosts
+    - cdslaves"
+  tasks:
+    - name: update kernel and aufs
+      apt: name={{ item }} state=present
+      with_items:
+        - linux-generic-lts-vivid
+        - aufs-tools
   roles:
-    - angstwad.docker_ubuntu
- 
+    - { role: angstwad.docker_ubuntu, docker_opts: "{{ docker_options }}" }
 
+- hosts: 
+    - "!dockerhosts"
+    - "!cdslaves"
+  tasks:
+    - name: update kernel and aufs
+      apt: name={{ item }} state=present
+      with_items:
+        - linux-generic-lts-vivid
+        - aufs-tools
+  roles:
+    - { role: angstwad.docker_ubuntu, docker_opts: "{{ docker_options }}" }
+  vars:
+    - docker_options: "-H unix:// -H tcp://0.0.0.0:2375 --storage-driver=aufs"

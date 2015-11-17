@@ -1,0 +1,16 @@
+---
+- hosts: swarm
+  tasks:
+    - name: create swarm member
+      docker:
+        image: "swarm"
+        command: "join --advertise={{ansible_eth1.ipv4.address}}:2375 consul://192.168.205.11:8500" 
+    
+- hosts: controller
+  tasks:
+    - name: create swarm manager
+      docker:
+        image: "swarm"
+        command: "manage consul://192.168.205.11:8500"
+        ports:
+          - "12375:2375"
