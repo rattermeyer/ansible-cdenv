@@ -14,3 +14,19 @@
         command: "manage consul://192.168.205.11:8500"
         ports:
           - "12375:2375"
+
+# On any of the swarm nodes create the network
+# currently is not the best solution (creates a file only on the node where network was created)
+# better execute script before creating network that checks for network (docker network ls) and
+# creates or deletes file
+- hosts: swarm[0]
+  tasks:
+    - name: Create overlay network
+      command: docker network create --driver overlay cd-overlay-network
+      args:
+        creates: /var/lib/docker/cd-overlay-network.created
+      notify: cd-overlay-network created
+
+  handlers:
+    - name: cd-overlay-network created
+      command: echo "cd-overlay-network created" > /var/lib/docker/cd-overlay-network.created
