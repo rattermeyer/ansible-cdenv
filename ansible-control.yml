@@ -1,0 +1,18 @@
+---
+# Installing helpful addon packages and configurations for the ansible control machine itself
+- hosts: ansible-control
+  tasks:
+    - name: Install packages
+      apt: name={{ item }} state=present
+      with_items:
+        - python-pip
+    - name: Install ansible-lint
+      pip: name=ansible-lint
+  roles:
+    - { role: vim }
+  vars:
+    home: /root
+    user: root
+    proxy_env:
+      http_proxy:
+ 

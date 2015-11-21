@@ -1,0 +1,11 @@
+---
+- name: fc-cache update
+  command: fc-cache -vf {{home}}/.fonts
+  tags: [powerline, vim]
+  become: true
+  become_user: "{{user}}"
+
+- name: Plugin Install
+  command: vim +PluginInstall +qall 2&> /dev/null
+  become: true
+  become_user: "{{user}}"

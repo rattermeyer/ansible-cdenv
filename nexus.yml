@@ -1,0 +1,17 @@
+---
+- hosts: repository
+  tasks:
+    - name: Ensure nexus user
+      user: name=nexus uid=200
+    - name: Ensure sonatype-work directory exists
+      file: path=/opt/data/nexus/sonatype-work state=directory owner=nexus recurse=yes
+    - name: nexus container
+      docker:
+        image: "sonatype/nexus"
+        state: started
+        restart_policy: always
+        ports:
+          - "8081:8081"
+        volumes:
+          - "/opt/data/nexus/sonatype-work:/sonatype-work"
+
