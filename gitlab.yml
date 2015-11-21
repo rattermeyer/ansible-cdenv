@@ -1,0 +1,18 @@
+---
+- hosts: repository
+  tasks:
+    - name: start gitlab server
+      docker: 
+        image: gitlab/gitlab-ce:latest
+        volumes:
+          - "/srv/gitlab/config:/etc/gitlab"
+          - "/srv/gitlab/logs:/var/log/gitlab"
+          - "/srv/gitlab/data:/var/opt/gitlab"
+        name: gitlab
+        ports:
+          - "8443:443"
+          - "8081:80"
+          - "2222:22"
+        state: started
+        restart_policy: always 
+        hostname: 192.168.205.11 

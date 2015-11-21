@@ -3,4 +3,5 @@
 - include: consul.yml
 - include: registrator.yml
 - include: swarm.yml
-##- include: docker-registry.yml
+- include: docker-registry.yml
+- include: gitlab.yml

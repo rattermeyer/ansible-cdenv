@@ -9,6 +9,8 @@
         hostname: registrator
         command: "consul://192.168.205.11:8500"
         state: started
+        restart_policy: always
+        restart_policy_retry: 2
         volumes: 
           - /var/run/docker.sock:/tmp/docker.sock
 

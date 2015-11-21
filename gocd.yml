@@ -1,0 +1,55 @@
+---
+- hosts: controller
+  tasks: 
+# gocd group with gid 999 already exists and is the docker group
+# so for now lets just use this group
+    - name: create go user
+      user: name=go uid=999 group=docker state=present
+    - name: create directories
+      file: path={{ item }} state=directory owner=go group=docker
+      with_items:
+        - "/data/gocd-server/artifacts"
+        - "/data/gocd-server/db"
+        - "/data/gocd-server/plugins"
+        - "/data/gocd-server/flyweight"
+        - "/data/gocd-server/config"
+        - "/data/gocd-server/logs"
+        - "/data/gocd-server/ssh"
+        - "/data/gocd-agent/pipelines"
+        - "/data/gocd-agent/logs"
+        - "/data/gocd-agent/ssh"
+    - name: start gocd server docker image
+      docker:
+        image: "jsalverda/gocd-server:latest"
+        state: started
+        restart_policy: always
+        ports:
+          - "8153:8153"
+          - "8154:8154"
+        hostname: gocd-server  
+        volumes:
+          - "/data/gocd-server/artifacts:/var/lib/go-server/artifacts"
+          - "/data/gocd-server/db:/var/lib/go-server/db/h2db"
+          - "/data/gocd-server/plugins:/var/lib/go-server/plugins/external"
+          - "/data/gocd-server/flyweight:/var/lib/go-server/pipelines/flyweight"
+          - "/data/gocd-server/config:/etc/go"
+          - "/data/gocd-server/logs:/var/log/go-server"
+          - "/data/gocd-server/ssh:/var/go/.ssh"
+        env:
+          AGENT_KEY: 388b633a88de126531afa41eff9aa69e
+    - name: start master gocd agent 
+      docker:
+        image: "jsalverda/gocd-agent:latest"
+        state: started
+        restart_policy: always
+        hostname: gocd-server  
+        volumes:
+          - "/data/gocd-agent/pipelines:/var/lib/go-agent/pipelines"
+          - "/data/gocd-agent/logs:/var/log/go-agent"
+        env:
+          AGENT_KEY: 388b633a88de126531afa41eff9aa69e
+          GO_SERVER: 192.168.205.11
+          AGENT_RESOURCES: master
+      
+      
+  
