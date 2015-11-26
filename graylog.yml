@@ -1,0 +1,20 @@
+---
+- hosts: graylog
+  tasks:
+    - name: "Ensure directories exist"
+      file: path="{{ item }}" state=directory
+      with_items:
+        - /data/graylog/data
+        - /data/graylog/logs
+        - /data/graylog/plugin
+    - name: "Install Graylog2 AIO container"
+      docker:
+        image: "graylog2/allinone"
+        state: started
+        ports:
+          - "9000:9000"
+          - "12201:12201"
+        volumes:
+          - "/data/graylog/data:/var/opt/graylog/data"
+          - "/data/graylog/logs:/var/log/graylog"
+          - "/data/graylog/plugin:/opt/graylog/plugin"

@@ -6,6 +6,7 @@
       docker:
         image: "progrium/consul"
         state: started
+        restart_policy: always
         ports:
           - "8400:8400"
           - "8500:8500"

@@ -10,8 +10,8 @@
           - "/srv/gitlab/data:/var/opt/gitlab"
         name: gitlab
         ports:
-          - "8443:443"
-          - "8081:80"
+          - "8543:443"
+          - "8181:80"
           - "2222:22"
         state: started
         restart_policy: always 

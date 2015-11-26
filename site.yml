@@ -1,7 +1,10 @@
 ---
 - include: docker.yml
+- include: graylog.yml
 - include: consul.yml
 - include: registrator.yml
 - include: swarm.yml
 - include: docker-registry.yml
 - include: gitlab.yml
+- include: gocd.yml
+- include: nexus.yml
