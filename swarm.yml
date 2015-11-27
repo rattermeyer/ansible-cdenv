@@ -4,6 +4,9 @@
     - name: create swarm member
       docker:
         image: "swarm"
+        name: "swarm"
+        state: reloaded
+        restart_policy: always
         command: "join --advertise={{ansible_eth1.ipv4.address}}:2375 consul://192.168.205.11:8500" 
     
 - hosts: controller
@@ -11,6 +14,9 @@
     - name: create swarm manager
       docker:
         image: "swarm"
+        name: "swarm"
+        state: reloaded
+        restart_policy: always
         command: "manage consul://192.168.205.11:8500"
         ports:
           - "12375:2375"

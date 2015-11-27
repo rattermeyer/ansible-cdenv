@@ -7,10 +7,14 @@
       docker:
         image: "gliderlabs/registrator:latest"
         hostname: registrator
-        command: "consul://192.168.205.11:8500"
-        state: started
+        command: "consul://{{ansible_eth1.ipv4.address}}:8500 -ip {{ansible_eth1.ipv4.address}} -h {{ansible_hostname}} -resync 10"
+#        command: "consul://192.168.205.11:8500 -ip {{ansible_eth1.ipv4.address}} -h {{ansible_hostname}} -resync 10"
+#        command: "consul://192.168.205.11:8500"
+        name: "registrator"
+        state: restarted
         restart_policy: always
         restart_policy_retry: 2
         volumes: 
           - /var/run/docker.sock:/tmp/docker.sock
+        
 
