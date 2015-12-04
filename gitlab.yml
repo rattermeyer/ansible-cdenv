@@ -9,6 +9,7 @@
           - "/srv/gitlab/logs:/var/log/gitlab"
           - "/srv/gitlab/data:/var/opt/gitlab"
         name: gitlab
+        net: multihost
         ports:
           - "8543:443"
           - "8181:80"

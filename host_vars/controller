@@ -1,0 +1,7 @@
+---
+docker_options: >
+  -H unix://
+  -H tcp://0.0.0.0:2375
+  --storage-driver=aufs
+  --cluster-store=consul://192.168.205.11:8500
+  --cluster-advertise=eth1:2376

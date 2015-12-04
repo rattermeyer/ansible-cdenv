@@ -1,42 +1,16 @@
 ---
 # Creating a single consul container (only for development purposes)
 - hosts: controller
-  tasks:
-    - name: consul container
-      docker:
-        image: "progrium/consul"
-        state: reloaded
-        name: consul
-        restart_policy: always
-        ports:
-          - "8300:8300"
-          - "8301:8301"
-          - "8301:8301/udp"
-          - "8302:8302"
-          - "8302:8302/udp"
-          - "8400:8400"
-          - "8500:8500"
-          - "8600:53/udp"
-        hostname: consul1
-        command: -server -bootstrap-expect 3 -advertise 192.168.205.11 -ui-dir /ui
+  roles:
+     - { role: "consul", consul_argline: "-server -node {{ansible_hostname}} -bootstrap-expect 3 -advertise 192.168.205.11 -ui-dir /ui" }
 
-- hosts: [repository,graylog]
-  tasks:
-    - name: consul container
-      docker:
-        image: "progrium/consul"
-        name: consul
-        state: reloaded
-        restart_policy: always
-        ports:
-          - "8300:8300"
-          - "8301:8301"
-          - "8301:8301/udp"
-          - "8302:8302"
-          - "8302:8302/udp"
-          - "8400:8400"
-          - "8500:8500"
-          - "8600:53/udp"
-        hostname: "{{ansible_hostname}}"
-        command: "-server -advertise {{ansible_eth1.ipv4.address}} -join 192.168.205.11"
-
+- hosts: 
+    - graylog
+    - repository
+  roles:
+     - { role: "consul", consul_argline: "-server -node {{ansible_hostname}} -advertise {{ansible_eth1.ipv4.address}}  -join 192.168.205.11" }
+- hosts:
+    - dockerhosts
+    - cdslaves
+  roles:
+     - { role: "consul", consul_argline: "-node {{ansible_hostname}} -advertise {{ansible_eth1.ipv4.address}} -join 192.168.205.11 -join 192.168.205.17 -join 192.168.205.14" }

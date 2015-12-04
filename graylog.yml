@@ -10,7 +10,9 @@
     - name: "Install Graylog2 AIO container"
       docker:
         image: "graylog2/allinone"
+        name: "graylog"
         state: started
+        net: multihost
         ports:
           - "9000:9000"
           - "12201:12201"
@@ -18,3 +20,7 @@
           - "/data/graylog/data:/var/opt/graylog/data"
           - "/data/graylog/logs:/var/log/graylog"
           - "/data/graylog/plugin:/opt/graylog/plugin"
+        env:
+          SERVICE_NAME: graylog
+          SERVICE_9000_NAME: graylog-ui
+          SERVICE_12201_NAME: graylog-gelf

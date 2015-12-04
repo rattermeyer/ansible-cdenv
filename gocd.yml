@@ -1,3 +1,4 @@
+# vim: set ts=2 sw=2 expandtab:
 ---
 - hosts: controller
   tasks: 
@@ -21,12 +22,13 @@
     - name: start gocd server docker image
       docker:
         image: "jsalverda/gocd-server:latest"
-        state: started
+        state: absent
         restart_policy: always
         ports:
           - "8153:8153"
           - "8154:8154"
         hostname: gocd-server  
+        net: multihost
         volumes:
           - "/data/gocd-server/artifacts:/var/lib/go-server/artifacts"
           - "/data/gocd-server/db:/var/lib/go-server/db/h2db"
@@ -37,12 +39,15 @@
           - "/data/gocd-server/ssh:/var/go/.ssh"
         env:
           AGENT_KEY: 388b633a88de126531afa41eff9aa69e
+          SERVICE_8153_name: gocd-server-ui
+          SERVICE_8154_name: gocd-server-api
     - name: start master gocd agent 
       docker:
         image: "jsalverda/gocd-agent:latest"
-        state: started
+        state: absent
         restart_policy: always
-        hostname: gocd-server  
+        hostname: gocd-agent-master
+        net: multihost
         volumes:
           - "/data/gocd-agent/pipelines:/var/lib/go-agent/pipelines"
           - "/data/gocd-agent/logs:/var/log/go-agent"

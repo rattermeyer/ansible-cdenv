@@ -6,8 +6,8 @@
 [*] shipyard für den swarm cluster
 [ ] Sinnvolle Namen für vagrant Maschinen
 [*] create gitlab server
-[ ] create gocd master + master agent
-[ ] create nexus
+[*] create gocd master + master agent
+[*] create nexus
 [ ] set password of gitlab on first login (or prevent password reset), extract access token
 [ ] script import of demo repositoy into gitlab using token
 [ ] create base image and image pipelines

@@ -1,0 +1,6 @@
+---
+# vars file for consul
+consul_node1_ip: "192.168.205.11" 
+consul_advertise_ip: "{{ansible_eth1.ipv4.address}}" 
+#consul_argline: "-server -advertise {{consul_advertise_ip}} -join {{consul_node1_ip}}"
+consul_argline: ""

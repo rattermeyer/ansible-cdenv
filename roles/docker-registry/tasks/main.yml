@@ -1,0 +1,29 @@
+---
+# Creating a single consul container (only for development purposes)
+- name: ensure directories
+  file: path=/opt/data/registry/data state=directory
+- name: install registry config
+  copy: src=config.yml dest=/opt/data/registry
+- name: docker registry container
+  docker:
+    image: "registry:2"
+    name: registry
+    state: started
+    ports:
+      - "5000:5000"
+    hostname: dockerregistry
+    volumes:
+      - "/opt/data/registry/data:/var/lib/registry"
+      - "/opt/data/registry/config.yml/:/etc/docker/registry/config.yml"
+- name: install docker registry ui
+  docker:
+    image: "konradkleine/docker-registry-frontend:v2"
+    ports:
+      - "8080:80"
+    name: registry-ui
+    state: started
+    hostname: registry-ui
+    env:
+      ENV_DOCKER_REGISTRY_HOST: localhost
+      ENV_DOCKER_REGISTRY_PORT: 5000
+      SERVICE_NAME: docker-registry-frontend

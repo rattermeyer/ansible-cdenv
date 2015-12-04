@@ -1,11 +1,15 @@
 ---
-- hosts: swarm
+- hosts: 
+    - swarm
+    - controller
+    - repository
+    - graylog
   tasks:
     - name: create swarm member
       docker:
         image: "swarm"
         name: "swarm"
-        state: reloaded
+        state: started
         restart_policy: always
         command: "join --advertise={{ansible_eth1.ipv4.address}}:2375 consul://192.168.205.11:8500" 
     
@@ -15,7 +19,7 @@
       docker:
         image: "swarm"
         name: "swarm"
-        state: reloaded
+        state: started
         restart_policy: always
         command: "manage consul://192.168.205.11:8500"
         ports:
@@ -28,11 +32,12 @@
 - hosts: swarm[0]
   tasks:
     - name: Create overlay network
-      command: docker network create --driver overlay cd-overlay-network
+      command: docker network create --driver overlay multihost
       args:
-        creates: /var/lib/docker/cd-overlay-network.created
-      notify: cd-overlay-network created
+        creates: /var/lib/docker/multihost.created
+      notify: multihost created
+      ignore_errors: true
 
   handlers:
-    - name: cd-overlay-network created
-      command: echo "cd-overlay-network created" > /var/lib/docker/cd-overlay-network.created
+    - name: multihost created
+      command: echo "multihost network created" > /var/lib/docker/multihost.created
