@@ -29,15 +29,11 @@
 # currently is not the best solution (creates a file only on the node where network was created)
 # better execute script before creating network that checks for network (docker network ls) and
 # creates or deletes file
-- hosts: swarm[0]
+- hosts: controller
   tasks:
+    - name: check for multihost network
+      shell: docker network ls | awk '{print $2}' | grep multihost
+      register: multihost_network_available
     - name: Create overlay network
       command: docker network create --driver overlay multihost
-      args:
-        creates: /var/lib/docker/multihost.created
-      notify: multihost created
-      ignore_errors: true
-
-  handlers:
-    - name: multihost created
-      command: echo "multihost network created" > /var/lib/docker/multihost.created
+      when: multihost_network_available.stdout != 'multihost'
