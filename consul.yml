@@ -9,6 +9,7 @@
     - repository
   roles:
      - { role: "consul", consul_argline: "-server -node {{ansible_hostname}} -advertise {{ansible_eth1.ipv4.address}}  -join 192.168.205.11" }
+
 - hosts:
     - dockerhosts
     - cdslaves
