@@ -8,7 +8,7 @@
     - name: create swarm member
       docker:
         image: "swarm"
-        name: "swarm"
+        name: "swarm-member"
         state: started
         restart_policy: always
         command: "join --advertise={{ansible_eth1.ipv4.address}}:2375 consul://192.168.205.11:8500" 
@@ -18,7 +18,7 @@
     - name: create swarm manager
       docker:
         image: "swarm"
-        name: "swarm"
+        name: "swarm-manager"
         state: started
         restart_policy: always
         command: "manage consul://192.168.205.11:8500"
