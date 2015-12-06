@@ -28,7 +28,6 @@
           - "8153:8153"
           - "8154:8154"
         hostname: gocd-server  
-        net: multihost
         volumes:
           - "/data/gocd-server/artifacts:/var/lib/go-server/artifacts"
           - "/data/gocd-server/db:/var/lib/go-server/db/h2db"
