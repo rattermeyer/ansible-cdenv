@@ -22,7 +22,7 @@
     - name: start gocd server docker image
       docker:
         image: "jsalverda/gocd-server:latest"
-        state: absent
+        state: started
         restart_policy: always
         ports:
           - "8153:8153"
@@ -44,7 +44,7 @@
     - name: start master gocd agent 
       docker:
         image: "jsalverda/gocd-agent:latest"
-        state: absent
+        state: started
         restart_policy: always
         hostname: gocd-agent-master
         net: multihost

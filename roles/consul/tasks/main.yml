@@ -21,3 +21,7 @@
     volumes:
       - "/data/consul:/data" 
     command: "{{consul_argline}}"
+- name: install dnsmasq
+  apt: name=dnsmasq
+- name: use consul for dns resolution
+  lineinfile: create=yes state=present dest=/etc/dnsmasq.d/10-consul line="server=/consul/{{ansible_docker0.ipv4.address}}#53"

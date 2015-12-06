@@ -8,5 +8,5 @@ docker_options: >
   --cluster-advertise=eth1:2376
   --log-driver=gelf
   --log-opt gelf-address=udp://192.168.205.17:12201
-  --log-opt tag="container"
-  --log-opt env="dockerhosts"
+  --log-opt tag='container'
+  --log-opt env='dockerhosts'
