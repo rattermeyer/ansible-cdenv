@@ -6,3 +6,7 @@ docker_options: >
   --label environment=qa
   --cluster-store=consul://192.168.205.11:8500
   --cluster-advertise=eth1:2376
+  --log-driver=gelf
+  --log-opt gelf-address=udp://192.168.205.17:12201
+  --log-opt tag="container"
+  --log-opt env="dockerhosts"

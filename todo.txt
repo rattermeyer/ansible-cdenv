@@ -4,7 +4,7 @@
 [ ] Make every docker daemon trust registry ceritifcate
 [*] UI for docker registry
 [*] shipyard für den swarm cluster
-[ ] Sinnvolle Namen für vagrant Maschinen
+[*] Sinnvolle Namen für vagrant Maschinen
 [*] create gitlab server
 [*] create gocd master + master agent
 [*] create nexus
@@ -14,3 +14,4 @@
 [ ] create project build pipeline
 [ ] create e2e tests
 [ ] hardening (apparmor, firewall) 
+

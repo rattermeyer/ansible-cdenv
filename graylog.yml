@@ -12,10 +12,10 @@
         image: "graylog2/allinone"
         name: "graylog"
         state: started
-        net: multihost
         ports:
           - "9000:9000"
           - "12201:12201"
+          - "12201:12201/udp"
         volumes:
           - "/data/graylog/data:/var/opt/graylog/data"
           - "/data/graylog/logs:/var/log/graylog"
