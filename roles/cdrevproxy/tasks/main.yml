@@ -1,0 +1,4 @@
+---
+# tasks file for cdrevproxy
+- name: Create Docker Images
+  docker_image: name=nginx-cd-revproxy path="docker"
