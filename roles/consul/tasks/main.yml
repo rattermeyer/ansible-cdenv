@@ -17,7 +17,8 @@
       - "8302:8302/udp"
       - "8400:8400"
       - "8500:8500"
-      - "{{ansible_docker0.ipv4.address}}:53:53/udp"
+      - "8600:8600/udp"
+#      - "{{ansible_docker0.ipv4.address}}:53:53/udp"
     volumes:
       - "/data/consul:/data" 
     command: "{{consul_argline}}"

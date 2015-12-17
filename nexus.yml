@@ -10,7 +10,6 @@
         image: "sonatype/nexus"
         name: "nexus"
         state: started
-        net: multihost
         restart_policy: always
         ports:
           - "8081:8081"

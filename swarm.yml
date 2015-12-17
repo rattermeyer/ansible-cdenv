@@ -31,7 +31,7 @@
 # creates or deletes file
 - hosts: controller
   tasks:
-    - name: check for multihost network
+    - name: swarm setup | check for multihost network
       shell: docker network ls | awk '{print $2}' | grep multihost
       register: multihost_network_available
     - name: Create overlay network

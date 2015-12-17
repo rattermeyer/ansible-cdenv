@@ -1,4 +1,18 @@
 ---
 # tasks file for cdrevproxy
+- name: Ensure directory
+  file: path="{{docker_image_dir}}" state=directory
+- name: Copy Dockerfile configuration
+  copy: src=nginx-cd-revproxy dest="{{docker_image_dir}}"
+
+# probably we should push this into the docker registry
+# and check first, if we can download
 - name: Create Docker Images
-  docker_image: name=nginx-cd-revproxy path="docker"
+  docker_image: name=nginx-cd-revproxy path="{{docker_image_dir}}/nginx-cd-revproxy"
+- name: Start Docker image
+  docker: 
+    image: "nginx-cd-revproxy:latest"
+    state: started
+    restart_policy: always
+    ports: "80:80"
+    hostname: cd-revproxy
