@@ -10,6 +10,7 @@
       apt: name={{ item }} state=present
       with_items:
         - linux-generic-lts-vivid
+        - linux-image-extra-{{ansible_kernel}}
         - aufs-tools
   roles:
     - { role: angstwad.docker_ubuntu, docker_opts: "{{ docker_options }}" }
