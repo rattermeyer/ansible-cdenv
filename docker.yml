@@ -5,7 +5,7 @@
     - cdslaves
     - controller
     - repository
-  tasks:
+  pre_tasks:
     - name: update kernel and aufs
       apt: name={{ item }} state=present
       with_items:
