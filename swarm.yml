@@ -1,9 +1,6 @@
 ---
 - hosts: 
     - swarm
-    - controller
-    - repository
-    - graylog
   tasks:
     - name: create swarm member
       docker:
@@ -29,11 +26,13 @@
 # currently is not the best solution (creates a file only on the node where network was created)
 # better execute script before creating network that checks for network (docker network ls) and
 # creates or deletes file
-- hosts: controller
+- hosts: dockerhosts[0]
   tasks:
     - name: swarm setup | check for multihost network
       shell: docker network ls | awk '{print $2}' | grep multihost
       register: multihost_network_available
+      ignore_errors: True
+      changed_when: False
     - name: Create overlay network
       command: docker network create --driver overlay multihost
       when: multihost_network_available.stdout != 'multihost'
