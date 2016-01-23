@@ -28,6 +28,7 @@ graylog ansible_ssh_host=192.168.205.17
 [dockerhosts]
 192.168.205.15
 192.168.205.16
+ansible-control
 
 [swarm:children]
 cdslaves

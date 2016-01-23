@@ -10,3 +10,8 @@ docker_options: >
   --log-opt gelf-address=udp://192.168.205.17:12201
   --log-opt tag='container'
   --log-opt env='dockerhosts'
+# use a fixed version, instead of "latest", so we do not always query internet
+pip_version_pip: "8.0.2"
+pip_version_setuptools: "19.4"
+pip_version_docker_py: "1.6.0"
+pip_version_docker_compose: "1.5.2"

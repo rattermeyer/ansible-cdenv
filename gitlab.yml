@@ -1,18 +1,53 @@
 ---
 - hosts: repository
   tasks:
-    - name: start gitlab server
-      docker: 
-        image: gitlab/gitlab-ce:latest
-        volumes:
-          - "/srv/gitlab/config:/etc/gitlab"
-          - "/srv/gitlab/logs:/var/log/gitlab"
-          - "/srv/gitlab/data:/var/opt/gitlab"
-        name: gitlab
-        ports:
-          - "8543:443"
-          - "8181:80"
-          - "2222:22"
+    - name: launch postgresql container
+      docker:
+        image: "sameersbn/postgresql:9.4-12"
+        name: gitlab-postgresql
         state: started
-        restart_policy: always 
-        hostname: 192.168.205.11 
+        restart_policy: always
+        env:
+          DB_NAME: gitlabhq_production
+          DB_USER: gitlab
+          DB_PASS: password
+        volumes:
+          - "/srv/gitlab/data/postgresql:/var/lib/postgresql"
+    - name: launch redis container
+      docker:
+        image: sameersbn/redis:latest
+        name: gitlab-redis
+        state: started
+        restart_policy: always
+        volumes:
+          - "/srv/gitlab/redis:/var/lib/redis"
+    - name: launch gitlab container
+      docker:
+        image: sameersbn/gitlab:8.4.0
+        name: gitlab
+        state: started
+        restart_policy: always
+        links:
+          - "gitlab-postgresql:postgresql" 
+          - "gitlab-redis:redisio" 
+        ports:
+          - "10022:22"
+          - "10080:80"
+        env:
+          GITLAB_PORT: 10080
+          GITLAB_SSH_PORT: 10022
+          GITLAB_SECRETS_DB_KEY_BASE: abcdefghijklmnop123456789
+        volumes:
+          - "/srv/gitlab/gitlab:/home/git/data"
+
+    - name: clone some sample repositories
+      git: repo="{{item}}"
+           dest=/srv/gitlab/gitlab/repositories/demo/{{item|basename}}
+           bare=yes
+      with_items:
+        - "https://github.com/fred4jupiter/fredbet.git"
+
+    - name: set uid / gid on imported repos
+      file: path=/srv/gitlab/gitlab/repositories recurse=yes owner=1000 group=1000 
+    - name: import into gitlab
+      command: docker exec -it gitlab sudo -u git -H bundle exec rake gitlab:import:repos RAILS_ENV=production
