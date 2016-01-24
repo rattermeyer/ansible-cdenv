@@ -11,6 +11,8 @@
           DB_NAME: gitlabhq_production
           DB_USER: gitlab
           DB_PASS: password
+        ports:
+          - "15432:5432"
         volumes:
           - "/srv/gitlab/data/postgresql:/var/lib/postgresql"
     - name: launch redis container
@@ -39,15 +41,26 @@
           GITLAB_SECRETS_DB_KEY_BASE: abcdefghijklmnop123456789
         volumes:
           - "/srv/gitlab/gitlab:/home/git/data"
-
     - name: clone some sample repositories
       git: repo="{{item}}"
            dest=/srv/gitlab/gitlab/repositories/demo/{{item|basename}}
            bare=yes
       with_items:
         - "https://github.com/fred4jupiter/fredbet.git"
-
     - name: set uid / gid on imported repos
       file: path=/srv/gitlab/gitlab/repositories recurse=yes owner=1000 group=1000 
     - name: import into gitlab
       command: docker exec -it gitlab sudo -u git -H bundle exec rake gitlab:import:repos RAILS_ENV=production
+- hosts: ansible-control
+  tasks:
+    - name: install postgres client
+      apt: name=postgresql-client state=present
+    - name: install python-gitlab
+      pip: name=python-gitlab      
+    - name: create pgpass file
+      lineinfile: dest=/home/vagrant/.pgpass line="{{hostvars.repository.ansible_ssh_host}}:15432:gitlabhq_production:gitlab:password" create=yes
+    - name: change modes
+      file: path=/root/.pgpass mode=0600
+    - name: fetch authentication_token for gitlab root user
+      shell: psql -t -h {{hostvars.repository.ansible_ssh_host}} -p 15432 -d gitlabhq_production -W gitlab -w -c "select authentication_token from users"
+      register: authentication_token
